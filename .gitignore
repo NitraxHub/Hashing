@@ -1,34 +1,3 @@
-<<<<<<< HEAD
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-.idea
-
-# Executables
-*.exe
-*.out
-*.app
-=======
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio
 
 *.iml
@@ -78,4 +47,4 @@ crashlytics-build.properties
 
 # Object files
 *.o
->>>>>>> Addet Sha1 Header stuff + Sha1 c++ (Copy/Paste). Fix .gitignore to fit CLion
+
