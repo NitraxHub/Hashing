@@ -15,8 +15,9 @@
         -- Volker Grabsch <vog@notjusthosting.com>
 */
 
-#ifndef SHA1_HPP
-#define SHA1_HPP
+
+#ifndef SHA1_SHA1_H
+#define SHA1_SHA1_H
 
 
 #include <iostream>
@@ -52,6 +53,4 @@ private:
 
 std::string sha1(const std::string &string);
 
-
-
-#endif /* SHA1_HPP */
+#endif //SHA1_SHA1_H
