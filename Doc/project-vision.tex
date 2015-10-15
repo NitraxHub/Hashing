@@ -1,0 +1,94 @@
+\documentclass[12pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+\usepackage[margin=1.5cm, top=3cm]{geometry}
+            
+% For importering av bilder; https://en.wikibooks.org/wiki/LaTeX/Importing_Graphics
+
+\begin{document}
+\begin{titlepage}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+\center % Center everything on the page
+ 
+ 
+%----------------------------------------------------------------------------------------
+%	HEADING SECTIONS
+%----------------------------------------------------------------------------------------
+\textsc{\LARGE University of Agder}\\[1.5cm]
+\textsc{\Large DAT-220}\\[0.5cm]
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+\vspace{25 mm}
+\HRule \\[0.4cm]
+{ \huge \bfseries Product Vision}\\[0.4cm]
+\textsc{\Large by CppNoobs}\\[0.5cm]
+\HRule \\[1.5cm]
+ 
+ 
+ 
+%----------------------------------------------------------------------------------------
+%	DATE
+%----------------------------------------------------------------------------------------
+\vspace{100 mm}
+{\large \today}\\[3cm]
+\vfill
+\end{titlepage}
+
+
+
+%----------------------------------------------------------------------------------------
+%	HEADER og FOOTER
+%----------------------------------------------------------------------------------------
+%\date{00.00.0000}
+\pagestyle{fancy}
+\fancyhead[R]{Product Vision}
+\fancyhead[L]{CppNoobs}
+\fancyfoot[C]{Page \thepage\ of \pageref{LastPage}}
+% Make \paragraph to be numbered
+\setcounter{secnumdepth}{5}
+
+
+\newpage
+
+\section*{Target group}
+The target group for this product is other application developers who need access to hashing functions in their product. The group this product caters to is developers who want a small, easy-to-use and understand hashing library without any non-stl dependencies.
+
+\section*{Product attributes}
+The functional product attributes is derived from the target group.
+
+\subsection*{Functional}
+\begin{itemize}
+\item Have a well-defined interface\\
+By having a well-defined interface it is easy for consumers to change hashing algorithm as needed without large changes to their own code.
+\item Contain some of the most used hashing algorithms.\\
+The product should at the very least be able to do SHA1, SHA2 and MD5.
+\item Easy to use as a compiled in resource, statically linked library and dynamically linked library\\
+The product should be easy to integrate with other products in the way making the most sense for the customer.
+\end{itemize}
+
+\subsubsection*{Stretch-goals}
+After the primary set of functional attributes is reached, the following functionality is \textbf{desirable}.
+\begin{itemize}
+\item OpenCL-support for hashing algorithms
+\item Support for key derivation functions, like PBKDF2 and scrypt
+\end{itemize}
+
+\subsection*{Non-functional}
+\begin{itemize}
+\item Be easy to understand\\
+The library should be written in a way making it easy to understand what's going on, and extend it.
+\item Be \textit{reasonable} fast
+The product should be reasonably fast. That is, unnecessary calculations should not be performed. In cases where speed and clarity is at odds, clarity should win unless the difference is extreme.
+\item Not leak resources\\
+The product should make sure to not leak resources, to make sure it is suitable for use in long-running applications.
+\end{itemize}
+
+\section*{Product differentiation}
+The product's main points in differentiation from other libraries should be that it is small, does little and does it well, and is easy to use and understand.
+
+\end{document}
