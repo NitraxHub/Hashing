@@ -29,11 +29,19 @@ protected:
 
 
 private:
-    std::vector<unsigned int> MessageParser(std::string Message);
+    int MessagePadding(std::string Message);
+    std::vector<unsigned int> MessageParser(int currentBlock);
     unsigned int K1 = 0x5a827999;
     unsigned int K2 = 0x6ed9eba1;
     unsigned int K3 = 0x8f1bbcdc;
     unsigned int K4 = 0xca62c1d6;
+
+    unsigned int A;
+    unsigned int B;
+    unsigned int C;
+    unsigned int D;
+    unsigned int E;
+    unsigned int T;
 
     unsigned int CurrentWord;
 

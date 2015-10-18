@@ -20,6 +20,7 @@ unsigned int Maj(unsigned int x,unsigned int y,unsigned int z){
 }
 
 void Reset(std::vector<unsigned int>& PlaceHolder){
+
     PlaceHolder.clear();
     PlaceHolder.push_back(0x67452301);
     PlaceHolder.push_back(0xefcdab89);
@@ -29,18 +30,21 @@ void Reset(std::vector<unsigned int>& PlaceHolder){
 }
 
 //Needs work!! Doesnt work on more than one block
-std::vector<unsigned int> Sha1::MessageParser(std::string Message){
+int Sha1::MessagePadding(std::string Message){
+
+    bitsMessage.clear();
 
     for(int i = 0;i<Message.length();i++){
         //Add character by character to a list, of type unsigned int
         bitsMessage.push_back(Message[i]);
     }
-    uint64_t MessageSize = bitsMessage.size()*8; //Size in number of bits.
 
-    int tall = bitsMessage.size();
-    int tall1 = Message.length();
 
-    for(int i = 0; i<53;i++){
+
+    int AmountOf0Bytes = 512-(((Message.length()*8) + 64)%512);
+
+
+    for(int i = 0; i<AmountOf0Bytes/8;i++){
         if(i == 0){
             bitsMessage.push_back(128);
         }
@@ -48,9 +52,12 @@ std::vector<unsigned int> Sha1::MessageParser(std::string Message){
 
             bitsMessage.push_back(0);
         }
+
     }
 
-    //Taking 8 bits at the time from the messageSize
+    //Last 64 bits
+    uint64_t MessageSize = Message.size()*8; //Size in number of bits.
+    // Taking 8 bits at the time from the messageSize
     bitsMessage.push_back((uint8_t)(MessageSize >> 56));
     bitsMessage.push_back((uint8_t)(MessageSize >> 48));
     bitsMessage.push_back((uint8_t)(MessageSize >> 40));
@@ -60,16 +67,20 @@ std::vector<unsigned int> Sha1::MessageParser(std::string Message){
     bitsMessage.push_back((uint8_t)(MessageSize >> 8));
     bitsMessage.push_back((uint8_t)(MessageSize));
 
+    return bitsMessage.size()/64;
 
-    //Senere i egen funksjon? må gjøres for hver block
+
+}
+
+
+std::vector<unsigned int> Sha1::MessageParser(int currentBlock){
+
     std::vector<unsigned int> Words;
-
-    for(int i = 0;i<64;i = i + 4){ //Legger inn chunks på 32 bit (4 8 bits i gangen)
+    int startingPoint = currentBlock*64;
+    for(int i = startingPoint;i<startingPoint+64;i = i + 4){ //Legger inn chunks på 32 bit (4 8 bits i gangen)
         Words.push_back(bitsMessage[i] << 24 | bitsMessage[i+1]<<16 | bitsMessage[i+2]<<8 | bitsMessage[i+3]);
     }
-
     return Words;
-
 }
 
 
@@ -77,7 +88,8 @@ void Sha1::Hash(std::string in){
 
     //Message Parser
     std::vector<unsigned int> Words;
-    Words = MessageParser(in);
+    bitsMessage.clear();
+    int blocks = MessagePadding(in);
 
 
     std::vector <unsigned int> PlaceHolder;
@@ -86,21 +98,20 @@ void Sha1::Hash(std::string in){
 
 
 
-    unsigned int A = PlaceHolder[0];
-    unsigned int B = PlaceHolder[1];
-    unsigned int C = PlaceHolder[2];
-    unsigned int D = PlaceHolder[3];
-    unsigned int E = PlaceHolder[4];
-    unsigned int T;
 
+    for(int i = 0;i<blocks;i++){
 
+        Words = MessageParser(i);
 
+        A = PlaceHolder[0];
+        B = PlaceHolder[1];
+        C = PlaceHolder[2];
+        D = PlaceHolder[3];
+        E = PlaceHolder[4];
 
-    for(int i = 1;i<2;i++){
         for(int t = 0;t<80;t++){
             if(t < 16){
                 CurrentWord = Words[t];
-                //cout << endl << t << " " << CurrentWord;
             }
             else{
                 Words.push_back(((Words[t-3] ^ Words[t-8] ^ Words[t-14] ^ Words[t-16]) <<1) | ((Words[t-3] ^ Words[t-8] ^ Words[t-14] ^ Words[t-16]) >> 32-1));
@@ -134,14 +145,15 @@ void Sha1::Hash(std::string in){
         PlaceHolder[3] = D + PlaceHolder[3];
         PlaceHolder[4] = E + PlaceHolder[4];
 
+
     }
 
     //End of Block
 
-    std::cout << "Message Digest is: "<<std::endl;
+    std::cout << "Message Digest is: ";
 
     std::stringstream sstream;
-    sstream << std::uppercase <<std::hex << PlaceHolder[0] << PlaceHolder[1] << PlaceHolder[2] << PlaceHolder[3]<< PlaceHolder[4];
+    sstream <<std::hex << PlaceHolder[0] << PlaceHolder[1] << PlaceHolder[2] << PlaceHolder[3]<< PlaceHolder[4];
     std::string answer = sstream.str();
     std::cout << std::endl;
     std::cout << answer;
